@@ -40,7 +40,7 @@ public class VehicleControl implements Listener {
 	// トロッコ（手動運転）
 	@EventHandler
 	public void onClickBlock(PlayerInteractEvent ie) {
-		if((ie.getPlayer().getVehicle() != null) && (ie.getPlayer().getVehicle() instanceof Player)) {
+		if(ie.getPlayer().getVehicle() != null && ie.getPlayer().getVehicle() instanceof Minecart) {
 			Vector vector = ie.getPlayer().getVehicle().getVelocity();
 			switch (ie.getAction()) {
 			//トロッコ乗車中に左クリック（ブレーキ）
