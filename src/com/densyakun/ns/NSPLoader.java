@@ -9,15 +9,16 @@ public class NSPLoader extends JavaPlugin implements Listener {
 	public void onEnable() {
 		//This Event
 		getServer().getPluginManager().registerEvents(this, this);
-		
+
 		//Vehicle Control
 		getServer().getPluginManager().registerEvents(new VehicleControl(), this);
 		getLogger().info("有効になりました");
 	}
-	
+
 	public void onDisable() {
-		
+
 	}
+
 	/*
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent je) {
