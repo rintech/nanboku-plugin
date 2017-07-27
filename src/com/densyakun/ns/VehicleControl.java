@@ -7,6 +7,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
@@ -26,6 +27,7 @@ public class VehicleControl implements Listener {
 		}
 	}
 
+	//トロッコ乗車中のブロック設置を無効にする
 	@EventHandler
 	public void onBlockPlaceWhenRiding(BlockPlaceEvent pe) {
 		if(pe.getPlayer() != null) {
@@ -34,6 +36,18 @@ public class VehicleControl implements Listener {
 			}
 		} else {
 			pe.setCancelled(true);
+		}
+	}
+
+	//トロッコ乗車中のブロック破壊を無効にする
+	@EventHandler
+	public void onBlockPlaceWhenRiding(BlockBreakEvent be) {
+		if(be.getPlayer() != null) {
+			if(be.getPlayer().getVehicle() instanceof Minecart) {
+				be.setCancelled(true);
+			}
+		} else {
+			be.setCancelled(true);
 		}
 	}
 
