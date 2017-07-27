@@ -62,23 +62,23 @@ public class VehicleControl implements Listener {
 			case LEFT_CLICK_BLOCK:
 				double lx = vector.getX();
 				if(lx < 0) {
-					vector.setX(lx + 0.015);
+					vector.setX(lx + 0.050);
 				} else if(0 < lx) {
-					vector.setX(lx - 0.015);
+					vector.setX(lx - 0.050);
 				}
 
 				double ly = vector.getY();
 				if(ly < 0) {
-					vector.setY(ly + 0.015);
+					vector.setY(ly + 0.050);
 				} else if(0 < ly) {
-					vector.setY(ly - 0.015);
+					vector.setY(ly - 0.050);
 				}
 
 				double lz = vector.getZ();
 				if(lz < 0) {
-					vector.setZ(lz + 0.015);
+					vector.setZ(lz + 0.050);
 				} else if(0 < lz) {
-					vector.setZ(lz - 0.015);
+					vector.setZ(lz - 0.050);
 				}
 
 				ie.getPlayer().getVehicle().getWorld().playSound(ie.getPlayer().getVehicle().getLocation(), Sound.IRONGOLEM_HIT, 1, 0);
@@ -89,23 +89,23 @@ public class VehicleControl implements Listener {
 			case RIGHT_CLICK_BLOCK:
 				double rx = vector.getX();
 				if(rx < 0) {
-					vector.setX(rx - 0.015);
+					vector.setX(rx - 0.030);
 				} else if(0 < rx) {
-					vector.setX(rx + 0.015);
+					vector.setX(rx + 0.030);
 				}
 
 				double ry = vector.getY();
 				if(ry < 0) {
-					vector.setY(ry - 0.015);
+					vector.setY(ry - 0.030);
 				} else if(0 < ry) {
-					vector.setY(ry + 0.015);
+					vector.setY(ry + 0.030);
 				}
 
 				double rz = vector.getZ();
 				if(rz < 0) {
-					vector.setZ(rz - 0.015);
+					vector.setZ(rz - 0.030);
 				} else if(0 < rz) {
-					vector.setZ(rz + 0.015);
+					vector.setZ(rz + 0.030);
 				}
 
 				ie.getPlayer().getVehicle().getWorld().playSound(ie.getPlayer().getVehicle().getLocation(), Sound.IRONGOLEM_HIT, 1, 0);
