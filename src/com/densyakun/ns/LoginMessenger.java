@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class LoginMessenger implements Listener {
+	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent je) {
 		Server server = Bukkit.getServer();

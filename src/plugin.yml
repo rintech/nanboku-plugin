@@ -1,3 +1,10 @@
 name: NSP
 version: 0.0.1
 main: com.densyakun.ns.NSPLoader
+author: Namboku 28th Server
+website: nanboku.densyakun.com
+#--
+commands:
+   gm:
+      description: ゲームモードを変更するコマンドです。
+      usage: '/<command> (0,1)'
