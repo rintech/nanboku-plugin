@@ -25,7 +25,7 @@ public class NSPLoader extends JavaPlugin implements Listener {
 
 	//サーバ終了後の動作
 	public void onDisable() {
-		getLogger().info("プラグインが無効になりました。")
+		getLogger().info("プラグインが無効になりました。");
 	}
 
 }
