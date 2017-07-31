@@ -20,3 +20,19 @@
 ## できること
 このプラグインでできることは、現時点で以下の通りです。
 * トロッコの手動運転（TrainCartsプラグインと競合しないようになっています。）
+
+## 追加予定機能一覧
+* NSPCommand(NSPC)
+	* 南北サーバにおけるコマンドの処理を行う。
+* NSPPlayer(NSPP)
+	* プレイヤーの情報を記録する。
+* NSPTNTBlocker(NSPTNTB)
+	* TNTの設置をブロックする。
+* NSPWorlds(NSPW)
+	* 南北サーバにおけるワールドを管理する。
+* NSPGames(NSPG)
+	* ミニゲーム機能
+* NSPLanks(NSPL)
+	* 南北サーバの管理をする。
+* NSPwithRintechID(NSPR)
+	* RintechIDと連携を行う。
