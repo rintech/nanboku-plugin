@@ -36,3 +36,7 @@
 	* 南北サーバの管理をする。
 * NSPwithRintechID(NSPR)
 	* RintechIDと連携を行う。
+
+
+## ライセンス
+このプラグインは、GNU Public Licenseを使用しています。
