@@ -7,7 +7,7 @@ public class NSPLoader extends JavaPlugin implements Listener {
 
 	//読み込み動作
 	public void onLoad() {
-		getLogger().info("プラグインを読み込み中です。");
+		getLogger().info("[N28thSSPl]プラグインを読み込み中です。");
 
 		//Load Other Classes
 		//This Event
@@ -20,12 +20,12 @@ public class NSPLoader extends JavaPlugin implements Listener {
 	//読み込み動作完了後の動作
 	public void onEnable() {
 		//LogMessage
-		getLogger().info("有効になりました");
+		getLogger().info("[N28thSSPl]有効になりました");
 	}
 
 	//サーバ終了後の動作
 	public void onDisable() {
-		getLogger().info("プラグインが無効になりました。");
+		getLogger().info("[N28thSSPl]プラグインが無効になりました。");
 	}
 
 }

@@ -1,10 +1,11 @@
 package com.densyakun.ns;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.event.Listener;
 
 public class CommandManager implements Listener {
 
@@ -15,7 +16,8 @@ public class CommandManager implements Listener {
 	 * @param args
 	 * @return
 	 */
-	@Override
+	/*@Override
+	*/
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(label.equalsIgnoreCase("nsp")) {
 			if (args.length == 0) {

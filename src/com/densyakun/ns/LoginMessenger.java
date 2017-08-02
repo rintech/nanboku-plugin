@@ -17,5 +17,6 @@ public class LoginMessenger implements Listener {
 		je.getPlayer().sendMessage(ChatColor.AQUA + "ようこそ" + player.getDisplayName() + "さん！");
 		server.broadcastMessage(ChatColor.GOLD + player.getDisplayName() + ChatColor.AQUA + "さんがオンラインになりました。");
 		server.broadcastMessage(ChatColor.GOLD + "みなさんで歓迎しましょう！");
+		je.getPlayer().sendMessage(ChatColor.BLUE + "南北28条サーバーのお知らせはこちら→" + ChatColor.AQUA + "http://nanboku.densyakun.com/news/");
 	}
 }
