@@ -37,11 +37,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.plugin.PluginLogger;
 
-import com.iCo6.iConomy;
-import com.iCo6.system.Account;
-import com.iCo6.util.Messaging;
-import com.iCo6.util.Template;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 
 public class PlayerManager implements Listener, Runnable {
 	private UUID ownerUUID;
@@ -77,66 +75,68 @@ public class PlayerManager implements Listener, Runnable {
 	private String admindemotemsg;
 	private String ownerpromotemsg;
 	private String ownermsg;
+	public String datacsv;
+	public String gotlog;
 
 	// int firework = 0;
 	public PlayerManager() {
-		dir = new File(Main.main.getDataFolder(), "PlayerManager/");
-		datacsv = new CSVFile(new File(dir, "Rank.csv"));
+		dir = new File(Plugin.getDataFolder(), "PlayerManager/");//getDataFolderが見当たりません。
+		datacsv = new CSVFile(new File(dir, "Rank.csv"));//ここのメソッドの中にdatacsvが見当たりません。
 		pdatafile = new File(dir, "pdata.dat");
-		String uuidstr = Main.main.getConfig().getString("ownerUUID", null);
+		String uuidstr = PlayerData.main.getConfig().getString("ownerUUID", null);//getConfigが見当たりません。
 		if (uuidstr != null) {
-			Main.main.getLogger().info("ownerUUID: " + (ownerUUID = UUID.fromString(uuidstr)));
+			PluginLogger.getLogger(gotlog).info("ownerUUID: " + (ownerUUID = UUID.fromString(uuidstr)));//getLoggerが見当たりません。
 		} else {
-			Main.main.getLogger().info("ownerUUID: (:null:)");
+			PlayerData.main.getLogger().info("ownerUUID: (:null:)");//getLoggerが見当たりません。
 		}
-		Main.main.getLogger().info("AFK時間: " + (afktime = Main.main.getConfig().getInt("afk-time", 60)) + "秒");
-		Main.main.getLogger().info("AFK自動Kickメッセージ: \""
-				+ (afkkick = Main.main.getConfig().getString("afk-kick", "Playerが放置により自動Kickされました")) + "\"");
-		Main.main.getLogger().info("AFK自動Kickメッセージ(2): \""
-				+ (afkkick_ = Main.main.getConfig().getString("afk-kick_", "放置により自動Kickされました")) + "\"");
-		Main.main.getLogger().info("AFKメッセージ: \"" + (afkmsg = Main.main.getConfig().getString("afk-msg", "Playerが放置中です")) + "\"");
-		Main.main.getLogger().info(
-				"AFKからの回復メッセージ: \"" + (afkbackmsg = Main.main.getConfig().getString("afk-back-msg", "Playerが動きました")) + "\"");
-		Main.main.getLogger()
-				.info("ログインメッセージ: \"" + (joinmsg = Main.main.getConfig().getString("joinmsg", "Playerがログインしました")) + "\"");
-		Main.main.getLogger()
-				.info("ログアウトメッセージ: \"" + (quitmsg = Main.main.getConfig().getString("quitmsg", "Playerがログアウトしました")) + "\"");
-		Main.main.getLogger().info(
-				"ウェルカムメッセージ: \"" + (welcomemsg = Main.main.getConfig().getString("welcomemsg", "電車君サーバーへようこそ!")) + "\"");
+		PlayerData.main.getLogger().info("AFK時間: " + (afktime = PlayerData.main.getConfig().getInt("afk-time", 60)) + "秒");//getConfigが見当たりません。
+		PlayerData.main.getLogger().info("AFK自動Kickメッセージ: \""//getLoggerが見当たりません。
+				+ (afkkick = PlayerData.main.getConfig().getString("afk-kick", "Playerが放置により自動Kickされました")) + "\"");//getConfigが見当たりません。
+		PlayerData.main.getLogger().info("AFK自動Kickメッセージ(2): \""//getLoggerが見当たりません。
+				+ (afkkick_ = PlayerData.main.getConfig().getString("afk-kick_", "放置により自動Kickされました")) + "\"");//getConfigが見当たりません。
+		PlayerData.main.getLogger().info("AFKメッセージ: \"" + (afkmsg = PlayerData.main.getConfig().getString("afk-msg", "Playerが放置中です")) + "\"");//getLoggerが見当たりません。
+		PlayerData.main.getLogger().info(//getLoggerが見当たりません。
+				"AFKからの回復メッセージ: \"" + (afkbackmsg = PlayerData.main.getConfig().getString("afk-back-msg", "Playerが動きました")) + "\"");//getConfigが見当たりません。
+		PlayerData.main.getLogger()//getLoggerが見当たりません。
+				.info("ログインメッセージ: \"" + (joinmsg = PlayerData.main.getConfig().getString("joinmsg", "Playerがログインしました")) + "\"");//getConfigが見当たりません。
+		PlayerData.main.getLogger()//getLoggerが見当たりません。
+				.info("ログアウトメッセージ: \"" + (quitmsg = PlayerData.main.getConfig().getString("quitmsg", "Playerがログアウトしました")) + "\"");//getConfigが見当たりません。
+		PlayerData.main.getLogger().info(//getLoggerが見当たりません。
+				"ウェルカムメッセージ: \"" + (welcomemsg = PlayerData.main.getConfig().getString("welcomemsg", "電車君サーバーへようこそ!")) + "\"");//getConfigが見当たりません。
 
-		Main.main.getLogger()
+		PlayerData.main.getLogger()
 				.info("旅人用メッセージ: \""
-						+ (travelermsg = Main.main.getConfig().getString("traveler-msg",
+						+ (travelermsg = PlayerData.main.getConfig().getString("traveler-msg",
 								"初めての方は旅人ランクのためブロックの破壊等はできません。住民ランクへ昇格するには登録したい住所地で/rsub [町名レターコード]を実行して下さい。(電鯖町名コードについてはこちらをご覧下さい: URL）"))
 						+ "\"");
-		Main.main.getLogger().info("住民票提出メッセージ: \"" + (rsubmitmsg = Main.main.getConfig().getString("rsubmit-msg",
+		PlayerData.main.getLogger().info("住民票提出メッセージ: \"" + (rsubmitmsg = PlayerData.main.getConfig().getString("rsubmit-msg",
 				"住民票を提出しました。受理されるまでお待ち下さい。生活についてはこちらをご覧下さい: URL")) + "\"");
-		Main.main.getLogger().info("住民票提出済みメッセージ: \""
-				+ (rsubmittedmsg = Main.main.getConfig().getString("rsubmitted-msg", "住民票は提出済みです。問題があればこちらから報告をお願いします: URL"))
+		PlayerData.main.getLogger().info("住民票提出済みメッセージ: \""
+				+ (rsubmittedmsg = PlayerData.main.getConfig().getString("rsubmitted-msg", "住民票は提出済みです。問題があればこちらから報告をお願いします: URL"))
 				+ "\"");
-		Main.main.getLogger().info("住民票受理メッセージ: \"" + (racceptmsg = Main.main.getConfig().getString("raccept-msg",
+		PlayerData.main.getLogger().info("住民票受理メッセージ: \"" + (racceptmsg = PlayerData.main.getConfig().getString("raccept-msg",
 				"住民票が受理され、住民へ昇格しました。それでは電車君サーバーをお楽しみ下さい。生活についてはこちらをご覧下さい: URL")) + "\"");
-		Main.main.getLogger().info("住民票却下メッセージ: \"" + (rdismissalmsg = Main.main.getConfig().getString("rdismissal-msg",
+		PlayerData.main.getLogger().info("住民票却下メッセージ: \"" + (rdismissalmsg = PlayerData.main.getConfig().getString("rdismissal-msg",
 				"申し訳ございません。住民票が受理されませんでした。担当: CHARGE メッセージ: MESSAGE")) + "\"");
-		Main.main.getLogger().info("住民用メッセージ: \""
-				+ (residentsmsg = Main.main.getConfig().getString("residents-msg", "住民の方々へお知らせがあります: URL")) + "\"");
-		Main.main.getLogger().info("住民降格メッセージ: \""
-				+ (rdemotemsg = Main.main.getConfig().getString("rdemote-msg", "住民へ降格されました。メッセージ: MESSAGE")) + "\"");
-		Main.main.getLogger().info("管理者昇格メッセージ: \"" + (adminpromotemsg = Main.main.getConfig().getString("adminpromote-msg",
+		PlayerData.main.getLogger().info("住民用メッセージ: \""
+				+ (residentsmsg = PlayerData.main.getConfig().getString("residents-msg", "住民の方々へお知らせがあります: URL")) + "\"");
+		PlayerData.main.getLogger().info("住民降格メッセージ: \""
+				+ (rdemotemsg = PlayerData.main.getConfig().getString("rdemote-msg", "住民へ降格されました。メッセージ: MESSAGE")) + "\"");
+		PlayerData.main.getLogger().info("管理者昇格メッセージ: \"" + (adminpromotemsg = PlayerData.main.getConfig().getString("adminpromote-msg",
 				"おめでとうございます。管理者へ昇格しました。管理者に向けて説明があります。こちらをご覧下さい: URL")) + "\"");
-		Main.main.getLogger().info(
-				"管理者用メッセージ: \"" + (adminmsg = Main.main.getConfig().getString("admin-msg", "管理者の方々へお知らせがあります: URL")) + "\"");
-		Main.main.getLogger()
+		PlayerData.main.getLogger().info(
+				"管理者用メッセージ: \"" + (adminmsg = PlayerData.main.getConfig().getString("admin-msg", "管理者の方々へお知らせがあります: URL")) + "\"");
+		PlayerData.main.getLogger()
 				.info("管理者降格メッセージ: \""
-						+ (admindemotemsg = Main.main.getConfig().getString("admindemote-msg", "管理者へ降格されました。メッセージ: MESSAGE"))
+						+ (admindemotemsg = PlayerData.main.getConfig().getString("admindemote-msg", "管理者へ降格されました。メッセージ: MESSAGE"))
 						+ "\"");
-		Main.main.getLogger().info("副鯖主昇格メッセージ: \""
-				+ (ownerpromotemsg = Main.main.getConfig().getString("ownerpromote-msg", "おめでとうございます。副鯖主へ昇格しました。")) + "\"");
-		Main.main.getLogger().info(
-				"副鯖主用メッセージ: \"" + (ownermsg = Main.main.getConfig().getString("owner-msg", "副鯖主の方々へお知らせがあります: URL")) + "\"");
-		Main.main.getServer().getPluginManager().registerEvents(this, Main.main);
+		PlayerData.main.getLogger().info("副鯖主昇格メッセージ: \""
+				+ (ownerpromotemsg = PlayerData.main.getConfig().getString("ownerpromote-msg", "おめでとうございます。副鯖主へ昇格しました。")) + "\"");
+		PlayerData.main.getLogger().info(
+				"副鯖主用メッセージ: \"" + (ownermsg = PlayerData.main.getConfig().getString("owner-msg", "副鯖主の方々へお知らせがあります: URL")) + "\"");
+		PlayerData.main.getServer().getPluginManager().registerEvents(this, PlayerData.main);
 		new Thread(this).start();
-		Main.main.getLogger().info("PlayerManager: 有効");
+		PlayerData.main.getLogger().info("PlayerManager: 有効");
 	}
 
 	public void load() {
@@ -221,7 +221,7 @@ public class PlayerManager implements Listener, Runnable {
 	@Override
 	public void run() {
 		while (NSPLoader.main.isEnabled()) {
-			NSPLoader.main.getServer().getScheduler().scheduleSyncDelayedTask(Main.main, new Runnable() {
+			NSPLoader.main.getServer().getScheduler().scheduleSyncDelayedTask(PlayerData.main, new Runnable() {
 				public void run() {
 					for (int a = 0; a < afk.size();) {
 						afk.get(a).time++;
@@ -292,7 +292,7 @@ public class PlayerManager implements Listener, Runnable {
 				if (afktime <= afk.get(a).time) {
 					Player player = NSPLoader.main.getServer().getPlayer(uuid);
 					if (player != null) {
-						Player[] players = Main.main.getServer().getOnlinePlayers().toArray(new Player[0]);
+						Player[] players = PlayerData.main.getServer().getOnlinePlayers().toArray(new Player[0]);
 						for (int b = 0; b < players.length; b++) {
 							players[b].sendMessage(afkbackmsg.replaceAll("Player", player.getDisplayName()));
 						}
@@ -332,7 +332,7 @@ public class PlayerManager implements Listener, Runnable {
 		} else {
 			NSPLoader.main.getLogger().info("管理モードが無効");
 		}
-		Iterator<? extends Player> a = Main.main.getServer().getOnlinePlayers().iterator();
+		Iterator<? extends Player> a = PlayerData.main.getServer().getOnlinePlayers().iterator();
 		while (a.hasNext()) {
 			Player player = a.next();
 			PlayerData data = getPlayerData(player.getUniqueId());
@@ -409,7 +409,7 @@ public class PlayerManager implements Listener, Runnable {
 		} else {
 			NSPLoader.main.getLogger().info("ホワイトモードが無効");
 		}
-		Player[] players = Main.main.getServer().getOnlinePlayers().toArray(new Player[0]);
+		Player[] players = PlayerData.main.getServer().getOnlinePlayers().toArray(new Player[0]);
 		for (int a = 0; a < players.length; a++) {
 			if (getPlayerData(players[a].getUniqueId()).getRank().isAdmin()) {
 				if (whitemode) {
@@ -443,7 +443,7 @@ public class PlayerManager implements Listener, Runnable {
 					MessageType.INFO);
 			e.setJoinMessage(null);
 		} else {
-			NSPLoader.main.traysend(Main.main.getServer().getServerName(), e.getPlayer().getDisplayName() + "がログイン", MessageType.INFO);
+			NSPLoader.main.traysend(PlayerData.main.getServer().getServerName(), e.getPlayer().getDisplayName() + "がログイン", MessageType.INFO);
 			e.setJoinMessage(joinmsg.replaceAll("Player", e.getPlayer().getDisplayName()));
 			e.getPlayer().sendMessage(welcomemsg.replaceAll("Player", e.getPlayer().getDisplayName()));
 			afkupdate(e.getPlayer().getUniqueId());
@@ -462,12 +462,12 @@ public class PlayerManager implements Listener, Runnable {
 							iConomy.Template.color(Template.Node.TAG_MONEY) + iConomy.Template.parse());
 				}
 			}
-			if (Main.main.getServer().getPluginManager().getPlugin("MiniGameManager") == null) {
+			if (PlayerData.main.getServer().getPluginManager().getPlugin("MiniGameManager") == null) {
 				e.getPlayer().sendMessage(
 						ChatColor.GRAY.toString() + ChatColor.BOLD + "[自動]" + ChatColor.YELLOW + "ミニゲームはメンテナンス中です");
 			}
 			rankmessage(e.getPlayer(), data);
-			Main.main.treasurechest.join(e.getPlayer());
+			PlayerData.main.treasurechest.join(e.getPlayer());
 		}
 	}
 
@@ -514,7 +514,7 @@ public class PlayerManager implements Listener, Runnable {
 	@EventHandler
 	public void PlayerQuit(PlayerQuitEvent e) {
 		e.getPlayer().leaveVehicle();
-		NSPLoader.main.traysend(Main.main.getServer().getServerName(),
+		NSPLoader.main.traysend(PlayerData.main.getServer().getServerName(),
 				e.getPlayer().getDisplayName() + "がログアウト:\n" + e.getQuitMessage(), MessageType.INFO);
 		e.setQuitMessage(quitmsg.replaceAll("Player", e.getPlayer().getDisplayName()));
 		System.out.println("QuitPos: " + e.getPlayer().getName() + "_" + e.getPlayer().getLocation());
@@ -644,14 +644,14 @@ public class PlayerManager implements Listener, Runnable {
 	@EventHandler
 	public void AsyncPlayerChat(AsyncPlayerChatEvent e) {
 		afkupdate(e.getPlayer().getUniqueId());
-		Main.main.traysend(Main.main.getServer().getServerName(), e.getPlayer().getDisplayName() + " Chat:" + e.getMessage(),
+		PlayerData.main.traysend(PlayerData.main.getServer().getServerName(), e.getPlayer().getDisplayName() + " Chat:" + e.getMessage(),
 				MessageType.INFO);
 	}
 
 	@EventHandler
 	public void PlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
 		afkupdate(e.getPlayer().getUniqueId());
-		Main.main.traysend(Main.main.getServer().getServerName(), e.getPlayer().getDisplayName() + " Cmd:" + e.getMessage(),
+		PlayerData.main.traysend(PlayerData.main.getServer().getServerName(), e.getPlayer().getDisplayName() + " Cmd:" + e.getMessage(),
 				MessageType.INFO);
 	}
 
