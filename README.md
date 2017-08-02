@@ -39,4 +39,4 @@
 
 
 ## ライセンス
-このプラグインは、GNU Public Licenseを使用しています。
+このプラグインは、GNU Public License Ver3.0を使用しています。
